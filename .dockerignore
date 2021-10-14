@@ -1,0 +1,5 @@
+.git
+.gitignore
+spark/Dockerfile
+README.md
+docker-compose.yml
