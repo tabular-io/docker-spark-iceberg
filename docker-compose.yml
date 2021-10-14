@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+  spark-iceberg:
+    image: tabulario/spark-iceberg
+    depends_on:
+      - postgres
+    container_name: spark-iceberg
+    environment:
+      - SPARK_HOME=/opt/spark
+      - PYSPARK_PYTON=/usr/bin/python3.9
+      - PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/spark/bin
+    volumes:
+      - ./warehouse:/home/iceberg/warehouse
+      - ./notebooks:/home/iceberg/notebooks/notebooks
+    ports:
+      - 8888:8888
+      - 8080:8080
+      - 18080:18080
+  postgres:
+    image: postgres:13.4-bullseye
+    container_name: postgres
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=demo_catalog
+    volumes:
+      - ./postgres/data:/var/lib/postgresql/data
