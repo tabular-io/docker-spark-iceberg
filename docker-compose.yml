@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+  spark-iceberg:
+    build: spark/
+    container_name: spark-iceberg
+    environment:
+      - JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
+      - HADOOP_HOME=/opt/hadoop
+      - SPARK_HOME=/opt/spark
+      - PYSPARK_PYTON=/usr/bin/python3.9
+      - PYSPARK_DRIVER_PYTHON=jupyter-notebook
+      - PYSPARK_DRIVER_PYTHON_OPTS=--notebook-dir=/home/iceberg/notebooks --ip='*' --port=8888 --no-browser --allow-root
+      - PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/hadoop/bin:/opt/spark/bin
+    volumes:
+      - ./warehouse:/home/iceberg/warehouse
+      - ./notebooks:/home/iceberg/notebooks
+    ports:
+      - 8888:8888
