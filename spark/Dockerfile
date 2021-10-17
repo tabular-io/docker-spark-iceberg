@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1
 FROM ubuntu:16.04
 
 # TODO - Might want to have ability to not include this or to make it easier to switch if exec'ing in (which people will likely do)
