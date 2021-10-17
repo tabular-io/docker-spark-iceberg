@@ -7,7 +7,14 @@ catalog. Currently, there is only a single service called `spark-iceberg`.
 page for installation instructions.
 
 # Usage
-To get started, clone this repo and run `docker-compose up -d`.
+First, start up the `metastore` and `spark-iceberg` services.
+```
+docker-compose up -d metastore
+```
+```
+docker-compose up -d spark-iceberg
+```
+
 Next, run any of the following commands, depending on which shell you prefer to use.
 ```
 docker exec -it spark-iceberg spark-shell
