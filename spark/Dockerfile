@@ -18,18 +18,19 @@ RUN apt-get update && \
     ssh
 
 # Remove python 3.5 that comes with ubuntu 16.04 and symlink downloaded python
-RUN apt remove python3.5-minimal -y
-RUN ln -sf /usr/bin/python3.9 /usr/bin/python3
+RUN apt remove python3.5-minimal -y \
+ && ln -sf /usr/bin/python3.9 /usr/bin/python3
 
 # Install Jupyter and other python deps
 FROM iceberg-spark-demo-env-builder AS iceberg-spark-demo-jupyter-installer
 
 RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
-        && python3 get-pip.py \
-        && rm get-pip.py
-RUN pip3 install jupyter pandas
+ && python3 get-pip.py \
+ && rm get-pip.py \
+ && pip3 install jupyter pandas
 
 
+## TODO - Might want to move this layer above the jupyter one as this is the most expensive and we want it highest so that subsequent changes to later parts of the file won't uncache this expensive stage
 ## Download spark and hadoop dependencies and install
 FROM iceberg-spark-demo-jupyter-installer AS iceberg-spark-demo-spark-deps-downloader
 
