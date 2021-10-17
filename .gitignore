@@ -1,6 +1,3 @@
-warehouse
-.idea
-
 # Compiled source #
 ###################
 *.com
@@ -185,3 +182,8 @@ metastore_db
 
 *.tgz
 *Untitled.ipynb
+.idea
+
+# Metastore
+metastore
+warehouse
