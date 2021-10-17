@@ -1,5 +1,29 @@
 FROM ubuntu:16.04
 
+# TODO - Might want to have ability to not include this or to make it easier to switch if exec'ing in (which people will likely do)
+# Docker build args
+ARG iceberg="0.12.0"
+
+# Optional env variables
+ENV SPARK_HOME=${SPARK_HOME:-"/opt/spark"}
+ENV HIVE_HOME=${HIVE_HOME:-"/opt/hive"}
+ENV HADOOP_HOME=${HADOOP_HOME:-"/opt/hadoop"}
+
+# TODO - Consider if we want this.
+# Prelude - Initial setup and inexpensive things to cache (mostly commands that actually dont invoke an additional docker image layer preferrably)
+USER root
+
+RUN mkdir -p /opt/hadoop && mkdir -p ${SPARK_HOME}  && mkdir -p  ${HIVE_HOME}
+
+# Expensive things to do, so move them uo so as not to bust the docker image cache on rebuild.
+# Download sample dataset
+RUN mkdir -p /opt/spark/bootstrap
+RUN curl -L https://files.grouplens.org/datasets/movielens/ml-25m.zip -o ml25m.zip
+RUN unzip ml25m.zip -d /opt/spark/bootstrap/data
+
+RUN mkdir /opt/hadoop && mkdir /opt/spark && mkdir /opt/hive
+
+# TODO - Probably remove this update as it breaks the docker image cache for layers on every rebuild
 RUN apt-get update && \
     apt-get install -y software-properties-common && \
     add-apt-repository ppa:deadsnakes/ppa && \
@@ -27,11 +51,12 @@ RUN mkdir /opt/hadoop && mkdir /opt/spark && mkdir /opt/hive
 
 WORKDIR /opt/spark
 
+# TODO - Possibly make prefix configurble so users can change to Apache archives (or change to archives ourselves).
 RUN curl https://dlcdn.apache.org/hadoop/common/hadoop-3.3.1/hadoop-3.3.1.tar.gz -o hadoop-3.3.1.tar.gz
 RUN curl https://dlcdn.apache.org/hive/hive-3.1.2/apache-hive-3.1.2-bin.tar.gz -o apache-hive-3.1.2-bin.tar.gz
 RUN curl https://dlcdn.apache.org/spark/spark-3.1.2/spark-3.1.2-bin-hadoop3.2.tgz -o spark-3.1.2-bin-hadoop3.2.tgz
 RUN curl https://jdbc.postgresql.org/download/postgresql-42.2.24.jar -o postgresql-42.2.24.jar
-RUN curl -L https://search.maven.org/remotecontent?filepath=org/apache/iceberg/iceberg-spark3-runtime/0.12.0/iceberg-spark3-runtime-0.12.0.jar -o iceberg-spark3-runtime-0.12.0.jar
+RUN curl -L https://search.maven.org/remotecontent?filepath=org/apache/iceberg/iceberg-spark3-runtime/${iceberg}/iceberg-spark3-runtime-${iceberg}.jar -o iceberg-spark3-runtime-${iceberg}.jar
 
 RUN tar xvzf hadoop-3.3.1.tar.gz --directory /opt/hadoop --strip-components 1
 RUN rm -rf hadoop-3.3.1.tar.gz
@@ -52,7 +77,7 @@ RUN mkdir -p /home/iceberg/localwarehouse /home/iceberg/notebooks /home/iceberg/
 # Add a pyspark-notebook command for convenience
 RUN echo '#! /bin/sh' >> /bin/pyspark-notebook
 RUN echo 'export PYSPARK_DRIVER_PYTHON=jupyter-notebook' >> /bin/pyspark-notebook
-RUN echo "export PYSPARK_DRIVER_PYTHON_OPTS=\"--notebook-dir=/home/iceberg/notebooks --ip='*' --port=8888 --no-browser --allow-root\"" >> /bin/pyspark-notebook
+RUN echo "export PYSPARK_DRIVER_PYTHON_OPTS=\"--notebook-dir=/home/iceberg/notebooks --ip='*' --NotebookApp.token='' --port=8888 --no-browser --allow-root\"" >> /bin/pyspark-notebook
 RUN echo "pyspark" >> /bin/pyspark-notebook
 RUN chmod u+x /bin/pyspark-notebook
 
