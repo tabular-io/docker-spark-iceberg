@@ -77,7 +77,7 @@ RUN mkdir -p /home/iceberg/localwarehouse /home/iceberg/notebooks /home/iceberg/
 # Add a pyspark-notebook command for convenience
 RUN echo '#! /bin/sh' >> /bin/pyspark-notebook
 RUN echo 'export PYSPARK_DRIVER_PYTHON=jupyter-notebook' >> /bin/pyspark-notebook
-RUN echo "export PYSPARK_DRIVER_PYTHON_OPTS=\"--notebook-dir=/home/iceberg/notebooks --ip='*' --port=8888 --no-browser --allow-root\"" >> /bin/pyspark-notebook
+RUN echo "export PYSPARK_DRIVER_PYTHON_OPTS=\"--notebook-dir=/home/iceberg/notebooks --ip='*' --NotebookApp.token='' --NotebookApp.password='' --port=8888 --no-browser --allow-root\"" >> /bin/pyspark-notebook
 RUN echo "pyspark" >> /bin/pyspark-notebook
 RUN chmod u+x /bin/pyspark-notebook
 
