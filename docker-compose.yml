@@ -23,7 +23,7 @@ services:
     image: postgres:13.4-bullseye
     container_name: postgres
     environment:
-      - POSTGRES_USER=admin
+      - POSTGRES_USERNAME=admin
       - POSTGRES_PASSWORD=password
       - POSTGRES_DB=demo_catalog
     volumes:
