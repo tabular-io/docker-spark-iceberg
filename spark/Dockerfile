@@ -36,7 +36,7 @@ FROM iceberg-spark-demo-jupyter-installer AS iceberg-spark-demo-spark-deps-downl
 
 # TODO - Might want to have ability to not include this or to make it easier to switch if exec'ing in (which people will likely do). E.g. don't pre-install it but symlink as needed maybe.
 # Docker build args
-ARG iceberg="0.12.0"
+ARG iceberg="0.12.1"
 
 # Optional env variables
 ENV SPARK_HOME=${SPARK_HOME:-"/opt/spark"}
