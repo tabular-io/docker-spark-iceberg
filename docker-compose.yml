@@ -4,7 +4,7 @@ services:
   spark-iceberg:
     build: spark/
     depends_on:
-      - metastore
+      - postgres
     container_name: spark-iceberg
     environment:
       - JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
@@ -19,11 +19,12 @@ services:
     ports:
       - 8888:8888
       - 8080:8080
-  metastore:
+  postgres:
     image: postgres:13.4-bullseye
-    container_name: metastore
+    container_name: postgres
     environment:
-      - POSTGRES_PASSWORD=quickstart
-      - POSTGRES_DB=metastore
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=demo_catalog
     volumes:
-      - ./metastore/data:/var/lib/postgresql/data
+      - ./postgres/data:/var/lib/postgresql/data

@@ -183,6 +183,6 @@ metastore_db
 *Untitled.ipynb
 .idea
 
-# Metastore
-metastore
+# Postgres data
 warehouse
+postgres

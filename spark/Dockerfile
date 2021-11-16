@@ -40,34 +40,22 @@ ARG iceberg="0.12.0"
 
 # Optional env variables
 ENV SPARK_HOME=${SPARK_HOME:-"/opt/spark"}
-ENV HIVE_HOME=${HIVE_HOME:-"/opt/hive"}
 ENV HADOOP_HOME=${HADOOP_HOME:-"/opt/hadoop"}
 
 # Prelude - Initial setup and inexpensive things to cache (mostly commands that actually dont invoke an additional docker image layer preferrably)
-RUN mkdir -p ${HADOOP_HOME} && mkdir -p ${SPARK_HOME}  && mkdir -p  ${HIVE_HOME}
+RUN mkdir -p ${HADOOP_HOME} && mkdir -p ${SPARK_HOME}
 WORKDIR ${SPARK_HOME}
-
-# Expensive things to do, so move them uo so as not to bust the docker image cache on rebuild.
-# Download sample dataset
-RUN mkdir -p /opt/spark/bootstrap
-RUN curl -L https://files.grouplens.org/datasets/movielens/ml-25m.zip -o ml25m.zip
-RUN unzip ml25m.zip -d /opt/spark/bootstrap/data
 
 # TODO - Possibly make prefix configurable so users can change to Apache archives (or change to archives ourselves).
 RUN curl https://dlcdn.apache.org/hadoop/common/hadoop-3.3.1/hadoop-3.3.1.tar.gz -o hadoop-3.3.1.tar.gz
 RUN tar xvzf hadoop-3.3.1.tar.gz --directory /opt/hadoop --strip-components 1 \
  && rm -rf hadoop-3.3.1.tar.gz
 
-RUN curl https://dlcdn.apache.org/hive/hive-3.1.2/apache-hive-3.1.2-bin.tar.gz -o apache-hive-3.1.2-bin.tar.gz
-RUN tar xvzf apache-hive-3.1.2-bin.tar.gz --directory /opt/hive --strip-components 1 \
- && rm -rf apache-hive-3.1.2-bin.tar.gz
-
 RUN curl https://dlcdn.apache.org/spark/spark-3.1.2/spark-3.1.2-bin-hadoop3.2.tgz -o spark-3.1.2-bin-hadoop3.2.tgz
 RUN tar xvzf spark-3.1.2-bin-hadoop3.2.tgz --directory /opt/spark --strip-components 1 \
  && rm -rf spark-3.1.2-bin-hadoop3.2.tgz
 
 RUN curl https://jdbc.postgresql.org/download/postgresql-42.2.24.jar -o postgresql-42.2.24.jar \
- && cp postgresql-42.2.24.jar /opt/hive/lib \
  && cp postgresql-42.2.24.jar /opt/spark/jars \
  && cp postgresql-42.2.24.jar /opt/hadoop/share/hadoop/common \
  && rm postgresql-42.2.24.jar
@@ -86,8 +74,6 @@ RUN echo '#! /bin/sh' >> /bin/pyspark-notebook \
  && chmod u+x /bin/pyspark-notebook
 
 COPY spark-defaults.conf /opt/spark/conf
-COPY hive-site.xml /opt/spark/conf
-COPY hive-site.xml /opt/hive/conf
 
 COPY entrypoint.sh .
 
