@@ -13,7 +13,9 @@ RUN apt-get update && \
     vim \
     unzip \
     openjdk-8-jdk \
+    build-essential \
     python3.9 \
+    python3.9-dev \
     python3.9-distutils \
     ssh
 
