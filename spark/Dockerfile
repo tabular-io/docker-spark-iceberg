@@ -34,10 +34,6 @@ RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
 ## Download spark and hadoop dependencies and install
 FROM iceberg-spark-demo-jupyter-installer AS iceberg-spark-demo-spark-deps-downloader
 
-# TODO - Might want to have ability to not include this or to make it easier to switch if exec'ing in (which people will likely do). E.g. don't pre-install it but symlink as needed maybe.
-# Docker build args
-ARG iceberg="0.12.1"
-
 # Optional env variables
 ENV SPARK_HOME=${SPARK_HOME:-"/opt/spark"}
 ENV HADOOP_HOME=${HADOOP_HOME:-"/opt/hadoop"}
@@ -59,9 +55,6 @@ RUN curl https://jdbc.postgresql.org/download/postgresql-42.2.24.jar -o postgres
  && cp postgresql-42.2.24.jar /opt/spark/jars \
  && cp postgresql-42.2.24.jar /opt/hadoop/share/hadoop/common \
  && rm postgresql-42.2.24.jar
-
-RUN curl -L https://search.maven.org/remotecontent?filepath=org/apache/iceberg/iceberg-spark3-runtime/${iceberg}/iceberg-spark3-runtime-${iceberg}.jar -o iceberg-spark3-runtime-${iceberg}.jar \
- && cp iceberg-spark3-runtime-${iceberg}.jar /opt/spark/jars
 
 # TODO - Move this to prelude and give logical prefixes as env variables (like LOCAL_WAREHOUSE) etc. This command is an unnecessary image layer.
 RUN mkdir -p /home/iceberg/localwarehouse /home/iceberg/notebooks /home/iceberg/warehouse

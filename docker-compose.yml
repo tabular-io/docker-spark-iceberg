@@ -16,6 +16,7 @@ services:
     volumes:
       - ./warehouse:/home/iceberg/warehouse
       - ./notebooks:/home/iceberg/notebooks
+      - ./data:/home/iceberg/data
     ports:
       - 8888:8888
       - 8080:8080
