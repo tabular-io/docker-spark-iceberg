@@ -1,21 +1,18 @@
 # Spark + Iceberg Quickstart Image
 
 This is a docker compose environment to quickly get up and running with a Spark environment and a local Iceberg
-catalog. Currently, there is only a single service called `spark-iceberg`.  
+catalog. It uses a postgres database as a JDBC catalog.  
 
 **note**: If you don't have docker installed, you can head over to the [Get Docker](https://docs.docker.com/get-docker/)
 page for installation instructions.
 
 # Usage
-First, start up the `metastore` and `spark-iceberg` services.
+First, start up the `spark-iceberg` and `postgres` container by running:
 ```
-docker-compose up -d metastore
-```
-```
-docker-compose up -d spark-iceberg
+docker-compose up
 ```
 
-Next, run any of the following commands, depending on which shell you prefer to use.
+Next, run any of the following commands, depending on which shell you prefer to use:
 ```
 docker exec -it spark-iceberg spark-shell
 ```
