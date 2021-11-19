@@ -14,7 +14,6 @@ services:
       - ./warehouse:/home/iceberg/warehouse
       - ./notebooks:/home/iceberg/notebooks
       - ./.ipython/profile_default/startup:/root/.ipython/profile_default/startup
-      - ./data:/home/iceberg/data
     ports:
       - 8888:8888
       - 8080:8080

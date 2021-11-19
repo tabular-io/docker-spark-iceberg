@@ -58,6 +58,9 @@ RUN curl https://jdbc.postgresql.org/download/postgresql-42.2.24.jar -o postgres
  && cp postgresql-42.2.24.jar /opt/hadoop/share/hadoop/common \
  && rm postgresql-42.2.24.jar
 
+RUN mkdir -p /home/iceberg/data
+RUN curl https://s3.amazonaws.com/nyc-tlc/trip+data/yellow_tripdata_2020-04.csv -o /home/iceberg/data/yello_tripdata_2020-04.csv
+
 # TODO - Move this to prelude and give logical prefixes as env variables (like LOCAL_WAREHOUSE) etc. This command is an unnecessary image layer.
 RUN mkdir -p /home/iceberg/localwarehouse /home/iceberg/notebooks /home/iceberg/warehouse
 
