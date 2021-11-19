@@ -28,5 +28,7 @@ docker exec -it spark-iceberg pyspark-notebook
 
 To stop the service, just run `docker-compose down`.
 
+To reset the catalog and data, remove the `postgres` and `warehouse` directories.
+
 For more information on getting started with using Iceberg, checkout
 the [Getting Started](https://iceberg.apache.org/getting-started/) guide in the official docs.

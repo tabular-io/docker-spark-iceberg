@@ -29,7 +29,7 @@ FROM iceberg-spark-demo-env-builder AS iceberg-spark-demo-jupyter-installer
 RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
  && python3 get-pip.py \
  && rm get-pip.py \
- && pip3 install jupyter pandas
+ && pip3 install jupyter pandas prettytable
 
 
 ## TODO - Might want to move this layer above the jupyter one as this is the most expensive and we want it highest so that subsequent changes to later parts of the file won't uncache this expensive stage
