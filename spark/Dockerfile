@@ -56,6 +56,7 @@ RUN mkdir -p /home/iceberg/data
 RUN curl https://s3.amazonaws.com/nyc-tlc/trip+data/yellow_tripdata_2020-04.csv -o /home/iceberg/data/yello_tripdata_2020-04.csv
 
 RUN mkdir -p /home/iceberg/localwarehouse /home/iceberg/notebooks /home/iceberg/warehouse
+COPY ["notebooks/Iceberg - Getting Started.ipynb", "/home/iceberg/notebooks"]
 
 # Add a pyspark-notebook command for convenience
 RUN echo '#! /bin/sh' >> /bin/pyspark-notebook \
@@ -63,6 +64,10 @@ RUN echo '#! /bin/sh' >> /bin/pyspark-notebook \
  && echo "export PYSPARK_DRIVER_PYTHON_OPTS=\"--notebook-dir=/home/iceberg/notebooks --ip='*' --NotebookApp.token='' --NotebookApp.password='' --port=8888 --no-browser --allow-root\"" >> /bin/pyspark-notebook \
  && echo "pyspark" >> /bin/pyspark-notebook \
  && chmod u+x /bin/pyspark-notebook
+
+RUN mkdir -p /root/.ipython/profile_default/startup
+COPY ipython/startup/00-prettytables.py /root/.ipython/profile_default/startup
+COPY ipython/startup/README /root/.ipython/profile_default/startup
 
 COPY spark-defaults.conf /opt/spark/conf
 

@@ -2,7 +2,7 @@ version: "3"
 
 services:
   spark-iceberg:
-    build: spark/
+    image: tabulario/spark-iceberg
     depends_on:
       - postgres
     container_name: spark-iceberg
@@ -12,8 +12,7 @@ services:
       - PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/spark/bin
     volumes:
       - ./warehouse:/home/iceberg/warehouse
-      - ./notebooks:/home/iceberg/notebooks
-      - ./.ipython/profile_default/startup:/root/.ipython/profile_default/startup
+      - ./notebooks:/home/iceberg/notebooks/notebooks
     ports:
       - 8888:8888
       - 8080:8080
