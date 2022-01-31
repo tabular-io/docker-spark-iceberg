@@ -115,6 +115,7 @@ target/
 
 # Jupyter Notebook
 .ipynb_checkpoints
+.ipython/
 
 # IPython
 ipython_config.py
