@@ -54,9 +54,11 @@ RUN curl https://jdbc.postgresql.org/download/postgresql-42.2.24.jar -o postgres
 
 RUN mkdir -p /home/iceberg/data
 RUN curl https://s3.amazonaws.com/nyc-tlc/trip+data/yellow_tripdata_2020-04.csv -o /home/iceberg/data/yello_tripdata_2020-04.csv
+RUN curl https://data.cityofnewyork.us/resource/tg4x-b46p.json > /home/iceberg/data/nyc_film_permits.json
 
 RUN mkdir -p /home/iceberg/localwarehouse /home/iceberg/notebooks /home/iceberg/warehouse /home/iceberg/spark-events
 COPY ["notebooks/Iceberg - Getting Started.ipynb", "/home/iceberg/notebooks"]
+COPY ["notebooks/Iceberg - Integrated Audits Demo.ipynb", "/home/iceberg/notebooks"]
 
 # Add a pyspark-notebook command for convenience
 RUN echo '#! /bin/sh' >> /bin/pyspark-notebook \

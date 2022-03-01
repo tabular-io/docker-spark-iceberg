@@ -187,3 +187,4 @@ metastore_db
 warehouse
 postgres
 notebooks
+!spark/notebooks
