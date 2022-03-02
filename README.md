@@ -6,7 +6,7 @@ catalog. It uses a postgres database as a JDBC catalog.
 **note**: If you don't have docker installed, you can head over to the [Get Docker](https://docs.docker.com/get-docker/)
 page for installation instructions.
 
-# Usage
+## Usage
 First, start up the `spark-iceberg` and `postgres` container by running:
 ```
 docker-compose up
@@ -28,7 +28,21 @@ docker exec -it spark-iceberg pyspark-notebook
 
 To stop the service, just run `docker-compose down`.
 
+## Troubleshooting & Maintenance
+
+### Resetting Catalog Data
 To reset the catalog and data, remove the `postgres` and `warehouse` directories.
+```bash
+docker-compose down && docker-compose kill && rm -rf /postgres && rm -rf /warehouse
+```
+
+### Refreshing Docker Image
+The prebuilt spark image is uploaded to Dockerhub. Out of convenience, the image tag defaults to `latest`.
+
+If you have an older version of the image, you might need to remove it to upgrade.
+```bash
+docker images | grep tabulario/spark-iceberg | awk '{ print $3; }' | xargs docker rmi -f && docker-compose pull
+```
 
 For more information on getting started with using Iceberg, checkout
 the [Getting Started](https://iceberg.apache.org/getting-started/) guide in the official docs.
