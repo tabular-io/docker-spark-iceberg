@@ -41,7 +41,7 @@ The prebuilt spark image is uploaded to Dockerhub. Out of convenience, the image
 
 If you have an older version of the image, you might need to remove it to upgrade.
 ```bash
-docker images | grep tabulario/spark-iceberg | awk '{ print $3; }' | xargs docker rmi -f && docker-compose pull
+docker image rm tabulario/spark-iceberg && docker-compose pull
 ```
 
 For more information on getting started with using Iceberg, checkout
