@@ -33,7 +33,7 @@ To stop the service, just run `docker-compose down`.
 ### Resetting Catalog Data
 To reset the catalog and data, remove the `postgres` and `warehouse` directories.
 ```bash
-docker-compose down && docker-compose kill && rm -rf /postgres && rm -rf /warehouse
+docker-compose down && docker-compose kill && rm -rf ./postgres && rm -rf ./warehouse
 ```
 
 ### Refreshing Docker Image
