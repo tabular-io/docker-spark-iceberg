@@ -3,6 +3,9 @@ FROM ubuntu:20.04
 
 ENV PYTHON_VERSION=${PYTHON_VERSION:-"3.9"}
 
+# https://github.com/hadolint/hadolint/wiki/DL4006
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
 RUN apt-get update && \
     apt-get install -y software-properties-common && \
     add-apt-repository ppa:deadsnakes/ppa && \
