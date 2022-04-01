@@ -12,7 +12,7 @@ RUN apt-get update && \
     curl \
     vim \
     unzip \
-    openjdk-8-jdk \
+    openjdk-11-jdk \
     build-essential \
     python3.9 \
     python3.9-dev \
@@ -29,6 +29,10 @@ RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
  && rm get-pip.py \
  && pip3 install jupyter pandas prettytable
 
+# Download and install IJava jupyter kernel
+RUN curl https://github.com/SpencerPark/IJava/releases/download/v1.3.0/ijava-1.3.0.zip -Lo ijava-1.3.0.zip \
+  && unzip ijava-1.3.0.zip \
+  && python3 install.py --sys-prefix
 
 ## Download spark and hadoop dependencies and install
 
@@ -39,18 +43,28 @@ ENV HADOOP_HOME=${HADOOP_HOME:-"/opt/hadoop"}
 RUN mkdir -p ${HADOOP_HOME} && mkdir -p ${SPARK_HOME}
 WORKDIR ${SPARK_HOME}
 
+# Download hadoop
 RUN curl https://dlcdn.apache.org/hadoop/common/hadoop-3.3.1/hadoop-3.3.1.tar.gz -o hadoop-3.3.1.tar.gz
 RUN tar xvzf hadoop-3.3.1.tar.gz --directory /opt/hadoop --strip-components 1 \
  && rm -rf hadoop-3.3.1.tar.gz
 
+# Download spark
 RUN curl https://dlcdn.apache.org/spark/spark-3.2.1/spark-3.2.1-bin-hadoop3.2.tgz -o spark-3.2.1-bin-hadoop3.2.tgz
 RUN tar xvzf spark-3.2.1-bin-hadoop3.2.tgz --directory /opt/spark --strip-components 1 \
  && rm -rf spark-3.2.1-bin-hadoop3.2.tgz
 
+# Download postgres connector jar
 RUN curl https://jdbc.postgresql.org/download/postgresql-42.2.24.jar -o postgresql-42.2.24.jar \
  && cp postgresql-42.2.24.jar /opt/spark/jars \
  && cp postgresql-42.2.24.jar /opt/hadoop/share/hadoop/common \
  && rm postgresql-42.2.24.jar
+
+# Download iceberg spark runtime
+RUN curl https://search.maven.org/remotecontent?filepath=org/apache/iceberg/iceberg-spark-runtime-3.2_2.12/0.13.1/iceberg-spark-runtime-3.2_2.12-0.13.1.jar -Lo iceberg-spark-runtime-3.2_2.12-0.13.1.jar
+RUN mv iceberg-spark-runtime-3.2_2.12-0.13.1.jar /opt/spark/jars
+
+# Add iceberg spark runtime jar to IJava classpath
+ENV IJAVA_CLASSPATH=/opt/spark/jars/*
 
 RUN mkdir -p /home/iceberg/data
 RUN curl https://s3.amazonaws.com/nyc-tlc/trip+data/yellow_tripdata_2020-04.csv -o /home/iceberg/data/yello_tripdata_2020-04.csv
@@ -59,6 +73,7 @@ RUN curl https://data.cityofnewyork.us/resource/tg4x-b46p.json > /home/iceberg/d
 RUN mkdir -p /home/iceberg/localwarehouse /home/iceberg/notebooks /home/iceberg/warehouse /home/iceberg/spark-events
 COPY ["notebooks/Iceberg - Getting Started.ipynb", "/home/iceberg/notebooks"]
 COPY ["notebooks/Iceberg - Integrated Audits Demo.ipynb", "/home/iceberg/notebooks"]
+COPY ["notebooks/Iceberg - An Introduction to the Iceberg Java API.ipynb", "/home/iceberg/notebooks"]
 
 # Add a pyspark-notebook command for convenience
 RUN echo '#! /bin/sh' >> /bin/pyspark-notebook \
