@@ -23,7 +23,7 @@ docker exec -it spark-iceberg spark-sql
 docker exec -it spark-iceberg pyspark
 ```
 ```
-docker exec -it spark-iceberg pyspark-notebook
+docker exec -it spark-iceberg notebook
 ```
 
 To stop the service, just run `docker-compose down`.

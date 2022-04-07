@@ -3,6 +3,9 @@ FROM ubuntu:20.04
 
 ENV PYTHON_VERSION=${PYTHON_VERSION:-"3.9"}
 
+RUN apt-get update && apt-get install -y gnupg
+RUN apt-get clean
+RUN apt-key adv --refresh-keys --keyserver keyserver.ubuntu.com
 RUN apt-get update && \
     apt-get install -y software-properties-common && \
     add-apt-repository ppa:deadsnakes/ppa && \
@@ -75,7 +78,14 @@ COPY ["notebooks/Iceberg - Getting Started.ipynb", "/home/iceberg/notebooks"]
 COPY ["notebooks/Iceberg - Integrated Audits Demo.ipynb", "/home/iceberg/notebooks"]
 COPY ["notebooks/Iceberg - An Introduction to the Iceberg Java API.ipynb", "/home/iceberg/notebooks"]
 
-# Add a pyspark-notebook command for convenience
+# Add a notebook command
+RUN echo '#! /bin/sh' >> /bin/notebook \
+ && echo 'export PYSPARK_DRIVER_PYTHON=jupyter-notebook' >> /bin/notebook \
+ && echo "export PYSPARK_DRIVER_PYTHON_OPTS=\"--notebook-dir=/home/iceberg/notebooks --ip='*' --NotebookApp.token='' --NotebookApp.password='' --port=8888 --no-browser --allow-root\"" >> /bin/notebook \
+ && echo "pyspark" >> /bin/notebook \
+ && chmod u+x /bin/notebook
+
+# Add a pyspark-notebook command (alias for notebook command for backwards-compatibility)
 RUN echo '#! /bin/sh' >> /bin/pyspark-notebook \
  && echo 'export PYSPARK_DRIVER_PYTHON=jupyter-notebook' >> /bin/pyspark-notebook \
  && echo "export PYSPARK_DRIVER_PYTHON_OPTS=\"--notebook-dir=/home/iceberg/notebooks --ip='*' --NotebookApp.token='' --NotebookApp.password='' --port=8888 --no-browser --allow-root\"" >> /bin/pyspark-notebook \
