@@ -46,11 +46,6 @@ ENV HADOOP_HOME=${HADOOP_HOME:-"/opt/hadoop"}
 RUN mkdir -p ${HADOOP_HOME} && mkdir -p ${SPARK_HOME}
 WORKDIR ${SPARK_HOME}
 
-# Download hadoop
-RUN curl https://dlcdn.apache.org/hadoop/common/hadoop-3.3.1/hadoop-3.3.1.tar.gz -o hadoop-3.3.1.tar.gz
-RUN tar xvzf hadoop-3.3.1.tar.gz --directory /opt/hadoop --strip-components 1 \
- && rm -rf hadoop-3.3.1.tar.gz
-
 # Download spark
 RUN curl https://dlcdn.apache.org/spark/spark-3.2.1/spark-3.2.1-bin-hadoop3.2.tgz -o spark-3.2.1-bin-hadoop3.2.tgz
 RUN tar xvzf spark-3.2.1-bin-hadoop3.2.tgz --directory /opt/spark --strip-components 1 \
@@ -59,12 +54,24 @@ RUN tar xvzf spark-3.2.1-bin-hadoop3.2.tgz --directory /opt/spark --strip-compon
 # Download postgres connector jar
 RUN curl https://jdbc.postgresql.org/download/postgresql-42.2.24.jar -o postgresql-42.2.24.jar \
  && cp postgresql-42.2.24.jar /opt/spark/jars \
- && cp postgresql-42.2.24.jar /opt/hadoop/share/hadoop/common \
  && rm postgresql-42.2.24.jar
 
 # Download iceberg spark runtime
 RUN curl https://search.maven.org/remotecontent?filepath=org/apache/iceberg/iceberg-spark-runtime-3.2_2.12/0.13.1/iceberg-spark-runtime-3.2_2.12-0.13.1.jar -Lo iceberg-spark-runtime-3.2_2.12-0.13.1.jar
 RUN mv iceberg-spark-runtime-3.2_2.12-0.13.1.jar /opt/spark/jars
+
+# Download Java AWS SDK
+RUN curl https://repo1.maven.org/maven2/software/amazon/awssdk/bundle/2.17.165/bundle-2.17.165.jar -Lo bundle-2.17.165.jar
+RUN mv bundle-2.17.165.jar /opt/spark/jars
+
+# Download URL connection client required for S3FileIO
+RUN curl https://repo1.maven.org/maven2/software/amazon/awssdk/url-connection-client/2.17.165/url-connection-client-2.17.165.jar -Lo url-connection-client-2.17.165.jar 
+RUN mv url-connection-client-2.17.165.jar /opt/spark/jars
+
+# Install AWS CLI
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+RUN unzip awscliv2.zip
+RUN sudo ./aws/install
 
 # Add iceberg spark runtime jar to IJava classpath
 ENV IJAVA_CLASSPATH=/opt/spark/jars/*
