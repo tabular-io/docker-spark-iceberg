@@ -93,7 +93,13 @@ COPY ipython/startup/00-prettytables.py /root/.ipython/profile_default/startup
 COPY ipython/startup/README /root/.ipython/profile_default/startup
 
 COPY spark-defaults.conf /opt/spark/conf
+ENV PATH="/opt/spark/sbin:/opt/spark/bin:${PATH}"
+ENV SPARK_HOME="/opt/spark"
+
+RUN chmod u+x /opt/spark/sbin/* && \
+    chmod u+x /opt/spark/bin/*
 
 COPY entrypoint.sh .
 
 ENTRYPOINT ["./entrypoint.sh"]
+CMD ["notebook"]
