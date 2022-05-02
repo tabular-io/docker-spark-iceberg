@@ -4,4 +4,4 @@
 /opt/spark/sbin/start-worker.sh spark://spark-iceberg:7077
 /opt/spark/sbin/start-history-server.sh
 
-tail -f /dev/null
+pyspark-notebook

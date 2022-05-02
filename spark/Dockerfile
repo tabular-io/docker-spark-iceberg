@@ -1,41 +1,28 @@
 # syntax=docker/dockerfile:1
-FROM ubuntu:20.04
+FROM python:3.9-bullseye
 
-ENV PYTHON_VERSION=${PYTHON_VERSION:-"3.9"}
-
-RUN apt-get update && apt-get install -y gnupg
-RUN apt-get clean
-RUN apt-key adv --refresh-keys --keyserver keyserver.ubuntu.com
 RUN apt-get update && \
-    apt-get install -y software-properties-common && \
-    add-apt-repository ppa:deadsnakes/ppa && \
-    apt-get update && \
-    apt-get -y install \
-    sudo \
-    curl \
-    vim \
-    unzip \
-    openjdk-11-jdk \
-    build-essential \
-    python3.9 \
-    python3.9-dev \
-    python3.9-distutils \
-    ssh
-
-# Remove python 3.5 that comes with ubuntu 16.04 and symlink downloaded python
-RUN apt remove python3.5-minimal -y \
- && ln -sf /usr/bin/python3.9 /usr/bin/python3
+    apt-get install -y --no-install-recommends \
+      sudo \
+      curl \
+      vim \
+      unzip \
+      openjdk-11-jdk \
+      build-essential \
+      software-properties-common \
+      ssh && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # Install Jupyter and other python deps
-RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
- && python3 get-pip.py \
- && rm get-pip.py \
- && pip3 install jupyter pandas prettytable
+COPY requirements.txt .
+RUN pip3 install -r requirements.txt
 
 # Download and install IJava jupyter kernel
 RUN curl https://github.com/SpencerPark/IJava/releases/download/v1.3.0/ijava-1.3.0.zip -Lo ijava-1.3.0.zip \
   && unzip ijava-1.3.0.zip \
-  && python3 install.py --sys-prefix
+  && python3 install.py --sys-prefix \
+  && rm ijava-1.3.0.zip
 
 ## Download spark and hadoop dependencies and install
 
@@ -47,8 +34,8 @@ RUN mkdir -p ${HADOOP_HOME} && mkdir -p ${SPARK_HOME}
 WORKDIR ${SPARK_HOME}
 
 # Download spark
-RUN curl https://dlcdn.apache.org/spark/spark-3.2.1/spark-3.2.1-bin-hadoop3.2.tgz -o spark-3.2.1-bin-hadoop3.2.tgz
-RUN tar xvzf spark-3.2.1-bin-hadoop3.2.tgz --directory /opt/spark --strip-components 1 \
+RUN curl https://dlcdn.apache.org/spark/spark-3.2.1/spark-3.2.1-bin-hadoop3.2.tgz -o spark-3.2.1-bin-hadoop3.2.tgz \
+ && tar xvzf spark-3.2.1-bin-hadoop3.2.tgz --directory /opt/spark --strip-components 1 \
  && rm -rf spark-3.2.1-bin-hadoop3.2.tgz
 
 # Download postgres connector jar
@@ -57,28 +44,30 @@ RUN curl https://jdbc.postgresql.org/download/postgresql-42.2.24.jar -o postgres
  && rm postgresql-42.2.24.jar
 
 # Download iceberg spark runtime
-RUN curl https://search.maven.org/remotecontent?filepath=org/apache/iceberg/iceberg-spark-runtime-3.2_2.12/0.13.1/iceberg-spark-runtime-3.2_2.12-0.13.1.jar -Lo iceberg-spark-runtime-3.2_2.12-0.13.1.jar
-RUN mv iceberg-spark-runtime-3.2_2.12-0.13.1.jar /opt/spark/jars
+RUN curl https://search.maven.org/remotecontent?filepath=org/apache/iceberg/iceberg-spark-runtime-3.2_2.12/0.13.1/iceberg-spark-runtime-3.2_2.12-0.13.1.jar -Lo iceberg-spark-runtime-3.2_2.12-0.13.1.jar \
+ && mv iceberg-spark-runtime-3.2_2.12-0.13.1.jar /opt/spark/jars
 
 # Download Java AWS SDK
-RUN curl https://repo1.maven.org/maven2/software/amazon/awssdk/bundle/2.17.165/bundle-2.17.165.jar -Lo bundle-2.17.165.jar
-RUN mv bundle-2.17.165.jar /opt/spark/jars
+RUN curl https://repo1.maven.org/maven2/software/amazon/awssdk/bundle/2.17.165/bundle-2.17.165.jar -Lo bundle-2.17.165.jar \
+ && mv bundle-2.17.165.jar /opt/spark/jars
 
 # Download URL connection client required for S3FileIO
-RUN curl https://repo1.maven.org/maven2/software/amazon/awssdk/url-connection-client/2.17.165/url-connection-client-2.17.165.jar -Lo url-connection-client-2.17.165.jar 
-RUN mv url-connection-client-2.17.165.jar /opt/spark/jars
+RUN curl https://repo1.maven.org/maven2/software/amazon/awssdk/url-connection-client/2.17.165/url-connection-client-2.17.165.jar -Lo url-connection-client-2.17.165.jar \
+ && mv url-connection-client-2.17.165.jar /opt/spark/jars
 
 # Install AWS CLI
-RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-RUN unzip awscliv2.zip
-RUN sudo ./aws/install
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
+ && unzip awscliv2.zip \
+ && sudo ./aws/install \
+ && rm awscliv2.zip \
+ && rm -rf aws/
 
 # Add iceberg spark runtime jar to IJava classpath
 ENV IJAVA_CLASSPATH=/opt/spark/jars/*
 
-RUN mkdir -p /home/iceberg/data
-RUN curl https://s3.amazonaws.com/nyc-tlc/trip+data/yellow_tripdata_2020-04.csv -o /home/iceberg/data/yello_tripdata_2020-04.csv
-RUN curl https://data.cityofnewyork.us/resource/tg4x-b46p.json > /home/iceberg/data/nyc_film_permits.json
+RUN mkdir -p /home/iceberg/data \
+ && curl https://s3.amazonaws.com/nyc-tlc/trip+data/yellow_tripdata_2020-04.csv -o /home/iceberg/data/yello_tripdata_2020-04.csv \
+ && curl https://data.cityofnewyork.us/resource/tg4x-b46p.json > /home/iceberg/data/nyc_film_permits.json
 
 RUN mkdir -p /home/iceberg/localwarehouse /home/iceberg/notebooks /home/iceberg/warehouse /home/iceberg/spark-events
 COPY ["notebooks/Iceberg - Getting Started.ipynb", "/home/iceberg/notebooks"]
