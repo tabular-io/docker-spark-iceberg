@@ -46,3 +46,5 @@ docker image rm tabulario/spark-iceberg && docker-compose pull
 
 For more information on getting started with using Iceberg, checkout
 the [Getting Started](https://iceberg.apache.org/getting-started/) guide in the official docs.
+
+The repository for the docker image is [located on dockerhub](https://hub.docker.com/r/tabulario/spark-iceberg).
