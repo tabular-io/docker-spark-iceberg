@@ -7,24 +7,12 @@ catalog. It uses a postgres database as a JDBC catalog.
 page for installation instructions.
 
 ## Usage
-First, start up the `spark-iceberg` and `postgres` container by running:
+Start up the notebook server by running the following.
 ```
 docker-compose up
 ```
 
-Next, run any of the following commands, depending on which shell you prefer to use:
-```
-docker exec -it spark-iceberg spark-shell
-```
-```
-docker exec -it spark-iceberg spark-sql
-```
-```
-docker exec -it spark-iceberg pyspark
-```
-```
-docker exec -it spark-iceberg notebook
-```
+The notebook server will then be available at http://localhost:8888
 
 To stop the service, just run `docker-compose down`.
 
