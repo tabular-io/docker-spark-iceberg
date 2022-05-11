@@ -14,7 +14,18 @@ docker-compose up
 
 The notebook server will then be available at http://localhost:8888
 
-To stop the service, just run `docker-compose down`.
+While the notebook server is running, you can use any of the following commands if you prefer to use spark-shell, spark-sql, or pyspark.
+```
+docker exec -it spark-iceberg spark-shell
+```
+```
+docker exec -it spark-iceberg spark-sql
+```
+```
+docker exec -it spark-iceberg pyspark
+```
+
+To stop everything, just run `docker-compose down`.
 
 ## Troubleshooting & Maintenance
 
