@@ -18,6 +18,9 @@ RUN apt-get update && \
 COPY requirements.txt .
 RUN pip3 install -r requirements.txt
 
+# Add scala kernel via spylon-kernel
+RUN python3 -m spylon_kernel install
+
 # Download and install IJava jupyter kernel
 RUN curl https://github.com/SpencerPark/IJava/releases/download/v1.3.0/ijava-1.3.0.zip -Lo ijava-1.3.0.zip \
   && unzip ijava-1.3.0.zip \
