@@ -3,6 +3,7 @@ version: "3"
 services:
   spark-iceberg:
     image: tabulario/spark-iceberg
+    build: spark/
     depends_on:
       - postgres
     container_name: spark-iceberg
@@ -16,19 +17,15 @@ services:
     volumes:
       - ./warehouse:/home/iceberg/warehouse
       - ./notebooks:/home/iceberg/notebooks/notebooks
+      - ./wh:/Users/fokkodriesprong/Desktop/docker-spark-iceberg/wh
+    links:
+      - hive
+      - minio
     ports:
       - 8888:8888
       - 8080:8080
+      - 10000:10000
       - 18080:18080
-    entrypoint: /bin/sh
-    command: >
-      -c "
-      echo \"
-      spark.sql.catalog.demo.io-impl         org.apache.iceberg.aws.s3.S3FileIO \n
-      spark.sql.catalog.demo.warehouse       s3://warehouse \n
-      spark.sql.catalog.demo.s3.endpoint     http://minio:9000 \n
-      \" >> /opt/spark/conf/spark-defaults.conf && ./entrypoint.sh notebook
-      "
   postgres:
     image: postgres:13.4-bullseye
     container_name: postgres
@@ -36,8 +33,6 @@ services:
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=password
       - POSTGRES_DB=demo_catalog
-    volumes:
-      - ./postgres/data:/var/lib/postgresql/data
   minio:
     image: minio/minio
     container_name: minio
@@ -65,3 +60,12 @@ services:
       /usr/bin/mc policy set public minio/warehouse;
       exit 0;
       "
+  hive:
+    build: hive/
+    entrypoint: ./init.sh
+    depends_on:
+      - postgres
+    ports:
+      - "9083:9083"
+    links:
+      - "postgres:postgres"

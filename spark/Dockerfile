@@ -50,6 +50,10 @@ RUN curl https://jdbc.postgresql.org/download/postgresql-42.2.24.jar -o postgres
 RUN curl https://search.maven.org/remotecontent?filepath=org/apache/iceberg/iceberg-spark-runtime-3.3_2.12/0.14.0/iceberg-spark-runtime-3.3_2.12-0.14.0.jar -Lo iceberg-spark-runtime-3.3_2.12-0.14.0.jar \
  && mv iceberg-spark-runtime-3.3_2.12-0.14.0.jar /opt/spark/jars
 
+RUN curl https://tabular-repository-public.s3.amazonaws.com/releases/io/tabular/tabular-client-runtime/0.24.0-rc.12/tabular-client-runtime-0.24.0-rc.12.jar -Lo tabular-client-runtime-0.24.0-rc.12.jar \
+ && mv tabular-client-runtime-0.24.0-rc.12.jar /opt/spark/jars
+
+
 # Download Java AWS SDK
 RUN curl https://repo1.maven.org/maven2/software/amazon/awssdk/bundle/2.17.165/bundle-2.17.165.jar -Lo bundle-2.17.165.jar \
  && mv bundle-2.17.165.jar /opt/spark/jars
