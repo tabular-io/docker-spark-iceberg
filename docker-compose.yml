@@ -3,6 +3,7 @@ version: "3"
 services:
   spark-iceberg:
     image: tabulario/spark-iceberg
+    build: spark/
     depends_on:
       - postgres
     volumes:
@@ -11,6 +12,7 @@ services:
     ports:
       - 8888:8888
       - 8080:8080
+      - 10000:10000
       - 18080:18080
   postgres:
     image: postgres:13.4-bullseye

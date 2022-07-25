@@ -19,6 +19,7 @@ services:
     ports:
       - 8888:8888
       - 8080:8080
+      - 10000:10000
       - 18080:18080
     entrypoint: /bin/sh
     command: >
