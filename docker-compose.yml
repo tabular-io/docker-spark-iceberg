@@ -8,6 +8,7 @@ services:
     volumes:
       - ./warehouse:/home/iceberg/warehouse
       - ./notebooks:/home/iceberg/notebooks/notebooks
+      - ./spark/conf:/opt/spark/conf
     ports:
       - 8888:8888
       - 8080:8080
