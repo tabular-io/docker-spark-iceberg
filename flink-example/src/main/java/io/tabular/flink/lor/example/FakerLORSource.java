@@ -1,4 +1,4 @@
-package io.tabular.flink.lor.example;
+package io.iceberg.flink.lor.example;
 
 import com.github.javafaker.Faker;
 import java.time.Duration;
@@ -33,7 +33,7 @@ public class FakerLORSource extends RichParallelSourceFunction<Map> {
     Faker faker = new Faker();
     while (!cancelled) {
       long timeout = (long) eventInterval;
-      TimeUnit.MILLISECONDS.sleep(timeout);  // processing delay between each record
+      TimeUnit.MILLISECONDS.sleep(timeout); // processing delay between each record
       synchronized (ctx.getCheckpointLock()) {
         ctx.collect(getRandomRecord(faker));
       }
@@ -43,8 +43,8 @@ public class FakerLORSource extends RichParallelSourceFunction<Map> {
   private Map<String, Object> getRandomRecord(Faker faker) {
     Map<String, Object> record = new HashMap<>();
     long random = ThreadLocalRandom
-      .current()
-      .nextLong(fiveHundredYearsAgo, now);
+        .current()
+        .nextLong(fiveHundredYearsAgo, now);
     record.put("character", faker.lordOfTheRings().character());
     record.put("location", faker.lordOfTheRings().location());
     record.put("event_time", Instant.ofEpochSecond(random));

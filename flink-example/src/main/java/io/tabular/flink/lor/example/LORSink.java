@@ -1,4 +1,4 @@
-package io.tabular.flink.lor.example;
+package io.iceberg.flink.lor.example;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -4,9 +4,9 @@ plugins {
   id "com.github.johnrengelman.shadow" version "7.1.2"
 }
 
-group "io.tabular.flink.lor.example"
+group "io.iceberg.flink.lor.example"
 version "0.0.1"
-mainClassName = 'io.tabular.flink.lor.example.LORSink'
+mainClassName = 'io.iceberg.flink.lor.example.LORSink'
 description = "Streaming randomly generated Lord of the Rings data to a Tabular table using Flink"
 
 compileJava {
