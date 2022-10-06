@@ -37,7 +37,21 @@ SELECT * FROM lor.character_sightings LIMIT 10
 ```
 *output*:
 ```
-
++----------------+-------------------------+-------------------+
+|character       |location                 |event_time         |
++----------------+-------------------------+-------------------+
+|Grìma Wormtongue|Bridge of Khazad-dûm     |1931-08-01 09:02:00|
+|Bilbo Baggins   |Ilmen                    |1693-08-01 03:06:28|
+|Denethor        |Barad-dûr                |1576-01-04 17:01:59|
+|Elrond          |East Road                |1738-09-04 08:07:24|
+|Shadowfax       |Helm's Deep              |1977-06-10 00:28:44|
+|Denethor        |Houses of Healing        |1998-02-08 12:09:05|
+|Quickbeam       |Warning beacons of Gondor|1674-05-25 06:12:54|
+|Faramir         |Utumno                   |1801-04-14 00:09:19|
+|Legolas         |Warning beacons of Gondor|1923-02-21 10:24:55|
+|Sauron          |Eithel Sirion            |1893-05-21 01:29:57|
+|Gimli           |Black Gate               |1545-03-06 20:51:13|
++----------------+-------------------------+-------------------+
 ```
 
 Additional optional Flink arguments:
