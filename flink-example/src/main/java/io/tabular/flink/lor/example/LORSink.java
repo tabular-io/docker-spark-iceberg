@@ -31,7 +31,7 @@ public class LORSink {
     Map<String, String> catalogProperties = new HashMap<>();
     catalogProperties.put("uri", parameters.get("uri", "http://rest:8181"));
     catalogProperties.put("io-impl", parameters.get("io-impl", "org.apache.iceberg.aws.s3.S3FileIO"));
-    catalogProperties.put("warehouse", parameters.get("warehouse", "s3a://warehouse/wh/"));
+    catalogProperties.put("warehouse", parameters.get("warehouse", "s3://warehouse/wh/"));
     catalogProperties.put("s3.endpoint", parameters.get("s3-endpoint", "http://minio:9000"));
     CatalogLoader catalogLoader = CatalogLoader.custom(
         "demo",
