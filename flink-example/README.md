@@ -30,7 +30,7 @@ Submit the Flink application and provide the database and output table name as p
 ```
 
 Once the Flink application starts, data will begin streaming into the `lor.character_sightings` table. You can then run a spark query in the notebook to see the results!
-```
+```sql
 %%sql
 
 SELECT * FROM lor.character_sightings LIMIT 10
