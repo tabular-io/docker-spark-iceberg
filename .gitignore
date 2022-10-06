@@ -188,3 +188,5 @@ warehouse
 postgres
 notebooks
 !spark/notebooks
+
+.vscode
