@@ -3,7 +3,7 @@ version: "3"
 services:
   spark-iceberg:
     image: tabulario/spark-iceberg
-    build: spark/
+    build: ../spark
     depends_on:
       - rest
       - minio

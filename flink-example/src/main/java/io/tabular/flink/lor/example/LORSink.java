@@ -34,7 +34,7 @@ public class LORSink {
     catalogProperties.put("warehouse", parameters.get("warehouse", "s3a://warehouse/wh/"));
     catalogProperties.put("s3.endpoint", parameters.get("s3-endpoint", "http://minio:9000"));
     CatalogLoader catalogLoader = CatalogLoader.custom(
-        "tabular",
+        "demo",
         catalogProperties,
         hadoopConf,
         parameters.get("catalog-impl", "org.apache.iceberg.rest.RESTCatalog"));
