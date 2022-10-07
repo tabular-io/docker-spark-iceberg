@@ -1,7 +1,7 @@
 # Spark + Iceberg Quickstart Image
 
-This is a docker compose environment to quickly get up and running with a Spark environment and a local Iceberg
-catalog. It uses a postgres database as a JDBC catalog.  
+This is a docker compose environment to quickly get up and running with a Spark environment and a local REST
+catalog, and MinIO as a storage backend.
 
 **note**: If you don't have docker installed, you can head over to the [Get Docker](https://docs.docker.com/get-docker/)
 page for installation instructions.
@@ -29,13 +29,8 @@ To stop everything, just run `docker-compose down`.
 
 ## Troubleshooting & Maintenance
 
-### Resetting Catalog Data
-To reset the catalog and data, remove the `postgres` and `warehouse` directories.
-```bash
-docker-compose down && docker-compose kill && rm -rf ./postgres && rm -rf ./warehouse
-```
-
 ### Refreshing Docker Image
+
 The prebuilt spark image is uploaded to Dockerhub. Out of convenience, the image tag defaults to `latest`.
 
 If you have an older version of the image, you might need to remove it to upgrade.
@@ -43,16 +38,23 @@ If you have an older version of the image, you might need to remove it to upgrad
 docker image rm tabulario/spark-iceberg && docker-compose pull
 ```
 
-### Use `Dockerfile` In This Repo
-To directly use the Dockerfile in this repo (as opposed to pulling the hosted `tabulario/spark-iceberg` image), change the following line in any of the docker-compose files.
-```diff
--    image: tabulario/spark-iceberg
-+    build: spark/
+### Building the Docker Image locally
+
+If you want to make changes to the local files, and test them out, you can build the image locally and use that instead:
+
+```bash
+docker image rm tabulario/spark-iceberg && docker-compose build
 ```
 
+### Use `Dockerfile` In This Repo
+
+To directly use the Dockerfile in this repo (as opposed to pulling the pre-build `tabulario/spark-iceberg` image), you can use `docker-compose build`.
+
 ### Deploying Changes
+
 To deploy changes to the hosted docker image `tabulario/spark-iceberg`, run the following. (Requires access to the tabulario docker hub account)
-```
+
+```sh
 cd spark
 docker buildx build -t tabulario/spark-iceberg --platform=linux/amd64,linux/arm64 . --push
 ```
