@@ -29,18 +29,21 @@ To stop everything, just run `docker-compose down`.
 
 ## Troubleshooting & Maintenance
 
-### Resetting Catalog Data
-To reset the data, remove the `warehouse` directories.
-```bash
-docker-compose down && docker-compose kill && rm -rf ./warehouse
-```
-
 ### Refreshing Docker Image
+
 The prebuilt spark image is uploaded to Dockerhub. Out of convenience, the image tag defaults to `latest`.
 
 If you have an older version of the image, you might need to remove it to upgrade.
 ```bash
 docker image rm tabulario/spark-iceberg && docker-compose pull
+```
+
+### Building the Docker Image locally
+
+If you want to make changes to the local files, and test them out, you can build the image locally and use that instead:
+
+```bash
+docker image rm tabulario/spark-iceberg && docker-compose build
 ```
 
 ### Use `Dockerfile` In This Repo
