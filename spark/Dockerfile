@@ -39,9 +39,9 @@ WORKDIR ${SPARK_HOME}
 ENV SPARK_VERSION=3.3.1
 
 # Download spark
-RUN curl https://dlcdn.apache.org/spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-hadoop3.tgz -o spark-${SPARK_VERSION}-bin-hadoop3.tgz \
- && tar xvzf spark-${SPARK_VERSION}-bin-hadoop3.tgz --directory /opt/spark --strip-components 1 \
- && rm -rf spark-${SPARK_VERSION}-bin-hadoop3.tgz
+RUN curl https://dlcdn.apache.org/spark/spark-3.3.1/spark-3.3.1-bin-hadoop3.tgz -o spark-3.3.1-bin-hadoop3.tgz \
+ && tar xvzf spark-3.3.1-bin-hadoop3.tgz --directory /opt/spark --strip-components 1 \
+ && rm -rf spark-3.3.1-bin-hadoop3.tgz
 
 # Download postgres connector jar
 RUN curl https://jdbc.postgresql.org/download/postgresql-42.2.24.jar -o postgresql-42.2.24.jar \
