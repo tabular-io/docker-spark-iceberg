@@ -1,0 +1,74 @@
+plugins {
+  id "java"
+  id "application"
+  id "com.github.johnrengelman.shadow" version "7.1.2"
+}
+
+group "io.iceberg.flink.lor.example"
+version "0.0.1"
+mainClassName = 'io.iceberg.flink.lor.example.LORSink'
+description = "Streaming randomly generated Lord of the Rings data to a Tabular table using Flink"
+
+compileJava {
+  options.release.set(11)
+}
+
+repositories {
+  mavenCentral()
+  maven {
+    url "https://tabular-repository-public.s3.amazonaws.com/releases"
+  }
+  maven {
+    url "https://repository.apache.org/content/repositories/snapshots"
+  }
+}
+
+ext {
+  flinkVersion = "1.14.4"
+  flinkShortVersion = "1.14"
+  scalaVersion = "2.12"
+  icebergVersion = "0.14.0"
+  tabularVersion = "0.22.0-rc.9"
+  hadoopVersion = "3.3.2"
+}
+
+configurations {
+  flinkShadowJar // dependencies to include in the shadow jar
+
+  // provided by Flink...
+  flinkShadowJar.exclude group: 'org.apache.flink', module: 'force-shading'
+  flinkShadowJar.exclude group: 'com.google.code.findbugs', module: 'jsr305'
+  flinkShadowJar.exclude group: 'org.slf4j'
+  flinkShadowJar.exclude group: 'org.apache.logging.log4j'
+}
+
+dependencies {
+  flinkShadowJar "org.apache.iceberg:iceberg-flink-runtime-${flinkShortVersion}:${icebergVersion}"
+  flinkShadowJar "org.apache.hadoop:hadoop-common:${hadoopVersion}" // needed by Iceberg Flink
+  flinkShadowJar "io.tabular:tabular-client:${tabularVersion}"
+  flinkShadowJar group: 'com.github.javafaker', name: 'javafaker', version: '1.0.2'
+
+  // these are provided by Flink...
+  implementation "org.apache.flink:flink-streaming-java_${scalaVersion}:${flinkVersion}"
+  implementation "org.apache.flink:flink-clients_${scalaVersion}:${flinkVersion}"
+  implementation "org.apache.flink:flink-table-runtime_${scalaVersion}:${flinkVersion}"
+  implementation "org.apache.iceberg:iceberg-flink-runtime-${flinkShortVersion}:${icebergVersion}"
+  implementation "org.apache.hadoop:hadoop-common:${hadoopVersion}" // needed by Iceberg Flink
+  implementation "io.tabular:tabular-client:${tabularVersion}"
+  implementation group: 'com.github.javafaker', name: 'javafaker', version: '1.0.2'
+}
+
+sourceSets {
+  main.compileClasspath += configurations.flinkShadowJar
+  main.runtimeClasspath += configurations.flinkShadowJar
+
+  test.compileClasspath += configurations.flinkShadowJar
+  test.runtimeClasspath += configurations.flinkShadowJar
+
+  javadoc.classpath += configurations.flinkShadowJar
+}
+
+shadowJar {
+  zip64 true
+  configurations = [project.configurations.flinkShadowJar]
+}

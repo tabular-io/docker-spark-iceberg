@@ -3,8 +3,7 @@ version: "3"
 services:
   spark-iceberg:
     image: tabulario/spark-iceberg
-    container_name: spark-iceberg
-    build: spark/
+    build: ../spark
     depends_on:
       - rest
       - minio
@@ -59,3 +58,29 @@ services:
       /usr/bin/mc policy set public minio/warehouse;
       exit 0;
       "
+  flink-jobmanager:
+    image: flink:latest
+    ports:
+      - "8081:8081"
+    command: jobmanager
+    environment:
+      - |
+        FLINK_PROPERTIES=
+        jobmanager.rpc.address: flink-jobmanager
+      - AWS_ACCESS_KEY_ID=admin
+      - AWS_SECRET_ACCESS_KEY=password
+      - AWS_REGION=us-east-1
+  flink-taskmanager:
+    image: flink:latest
+    depends_on:
+      - flink-jobmanager
+    command: taskmanager
+    scale: 1
+    environment:
+      - |
+        FLINK_PROPERTIES=
+        jobmanager.rpc.address: flink-jobmanager
+        taskmanager.numberOfTaskSlots: 2
+      - AWS_ACCESS_KEY_ID=admin
+      - AWS_SECRET_ACCESS_KEY=password
+      - AWS_REGION=us-east-1
