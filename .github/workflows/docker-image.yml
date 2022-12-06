@@ -27,7 +27,7 @@ jobs:
           username: tabulario
           password: ${{ secrets.DOCKERHUB_ACCESS_TOKEN }}
 
-      - name: BuildX and Push
+      - name: Build and Push
         uses: docker/build-push-action@v3
         env:
           IMAGE_TAG: ${{ inputs.tag }}
