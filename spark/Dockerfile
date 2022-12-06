@@ -47,19 +47,19 @@ RUN curl https://jdbc.postgresql.org/download/postgresql-42.2.24.jar -o postgres
  && rm postgresql-42.2.24.jar
 
 # Download iceberg spark runtime
-RUN curl https://search.maven.org/remotecontent?filepath=org/apache/iceberg/iceberg-spark-runtime-3.3_2.12/0.14.1/iceberg-spark-runtime-3.3_2.12-0.14.1.jar -Lo iceberg-spark-runtime-3.3_2.12-0.14.1.jar \
- && mv iceberg-spark-runtime-3.3_2.12-0.14.1.jar /opt/spark/jars
+RUN curl https://repo1.maven.org/maven2/org/apache/iceberg/iceberg-spark-runtime-3.3_2.12/1.1.0/iceberg-spark-runtime-3.3_2.12-1.1.0.jar -Lo iceberg-spark-runtime-3.3_2.12-1.1.0.jar \
+ && mv iceberg-spark-runtime-3.3_2.12-1.1.0.jar /opt/spark/jars
 
-RUN curl https://tabular-repository-public.s3.amazonaws.com/releases/io/tabular/tabular-client-runtime/0.33.0/tabular-client-runtime-0.33.0.jar -Lo tabular-client-runtime-0.33.0.jar \
- && mv tabular-client-runtime-0.33.0.jar /opt/spark/jars
+RUN curl https://tabular-repository-public.s3.amazonaws.com/releases/io/tabular/tabular-client-runtime/0.40.0/tabular-client-runtime-0.40.0.jar -Lo tabular-client-runtime-0.40.0.jar \
+ && mv tabular-client-runtime-0.40.0.jar /opt/spark/jars
 
 # Download Java AWS SDK
-RUN curl https://repo1.maven.org/maven2/software/amazon/awssdk/bundle/2.17.165/bundle-2.17.165.jar -Lo bundle-2.17.165.jar \
- && mv bundle-2.17.165.jar /opt/spark/jars
+RUN curl https://repo1.maven.org/maven2/software/amazon/awssdk/bundle/2.17.257/bundle-2.17.257.jar -Lo bundle-2.17.257.jar \
+ && mv bundle-2.17.257.jar /opt/spark/jars
 
 # Download URL connection client required for S3FileIO
-RUN curl https://repo1.maven.org/maven2/software/amazon/awssdk/url-connection-client/2.17.165/url-connection-client-2.17.165.jar -Lo url-connection-client-2.17.165.jar \
- && mv url-connection-client-2.17.165.jar /opt/spark/jars
+RUN curl https://repo1.maven.org/maven2/software/amazon/awssdk/url-connection-client/2.17.257/url-connection-client-2.17.257.jar -Lo url-connection-client-2.17.257.jar \
+ && mv url-connection-client-2.17.257.jar /opt/spark/jars
 
 # Install AWS CLI
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
