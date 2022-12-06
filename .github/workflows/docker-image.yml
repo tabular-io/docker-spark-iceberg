@@ -32,8 +32,8 @@ jobs:
         env:
           IMAGE_TAG: ${{ inputs.tag }}
         with:
-          context: .
-          file: Dockerfile
+          context: spark/
+          file: spark/Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
           tags: tabulario/spark-iceberg:${{ inputs.tag }}
