@@ -18,6 +18,8 @@ services:
     ports:
       - 8888:8888
       - 8080:8080
+      - 10000:10000
+      - 10001:10001
     links:
       - rest:rest
       - minio:minio
