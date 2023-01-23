@@ -88,10 +88,7 @@ RUN mkdir -p /home/iceberg/data \
  && curl https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2021-04.parquet -o /home/iceberg/data/yellow_tripdata_2021-04.parquet
 
 RUN mkdir -p /home/iceberg/localwarehouse /home/iceberg/notebooks /home/iceberg/warehouse /home/iceberg/spark-events /home/iceberg
-COPY ["notebooks/Iceberg - Getting Started.ipynb", "/home/iceberg/notebooks"]
-COPY ["notebooks/Iceberg - Integrated Audits Demo.ipynb", "/home/iceberg/notebooks"]
-COPY ["notebooks/Iceberg - An Introduction to the Iceberg Java API.ipynb", "/home/iceberg/notebooks"]
-COPY ["notebooks/Iceberg - Table Maintenance Spark Procedures.ipynb", "/home/iceberg/notebooks"]
+COPY notebooks/* /home/iceberg/notebooks
 
 # Add a notebook command
 RUN echo '#! /bin/sh' >> /bin/notebook \
