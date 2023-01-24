@@ -24,11 +24,11 @@ repositories {
 }
 
 ext {
-  flinkVersion = "1.14.4"
-  flinkShortVersion = "1.14"
+  flinkVersion = "1.16.0"
+  flinkShortVersion = "1.16"
   scalaVersion = "2.12"
-  icebergVersion = "0.14.0"
-  tabularVersion = "0.22.0-rc.9"
+  icebergVersion = "1.1.0"
+  tabularVersion = "0.48.0-rc.3"
   hadoopVersion = "3.3.2"
 }
 
@@ -49,9 +49,9 @@ dependencies {
   flinkShadowJar group: 'com.github.javafaker', name: 'javafaker', version: '1.0.2'
 
   // these are provided by Flink...
-  implementation "org.apache.flink:flink-streaming-java_${scalaVersion}:${flinkVersion}"
-  implementation "org.apache.flink:flink-clients_${scalaVersion}:${flinkVersion}"
-  implementation "org.apache.flink:flink-table-runtime_${scalaVersion}:${flinkVersion}"
+  implementation "org.apache.flink:flink-streaming-java:${flinkVersion}"
+  implementation "org.apache.flink:flink-clients:${flinkVersion}"
+  implementation "org.apache.flink:flink-table-runtime:${flinkVersion}"
   implementation "org.apache.iceberg:iceberg-flink-runtime-${flinkShortVersion}:${icebergVersion}"
   implementation "org.apache.hadoop:hadoop-common:${hadoopVersion}" // needed by Iceberg Flink
   implementation "io.tabular:tabular-client:${tabularVersion}"
