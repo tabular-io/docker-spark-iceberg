@@ -65,4 +65,3 @@ IMAGE_TARGET=${REPOSITORY}/${IMAGE_NAME}:${TAG}
 echo "Building and pushing multi-architecture image as ${IMAGE_TARGET} for platforms linux/amd64 and linux/arm64"
 
 docker buildx build -t ${IMAGE_TARGET} --platform=linux/amd64,linux/arm64 ./spark --load
-

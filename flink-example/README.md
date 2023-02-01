@@ -26,7 +26,7 @@ Navigate to the Flink UI at [http://localhost:8081/#/submit](http://localhost:80
 
 Submit the Flink application and provide the database and output table name as parameters. (The table will be created if it does not exist).
 ```
---database "lor" --table "character_sightings" 
+--database "lor" --table "character_sightings"
 ```
 
 Once the Flink application starts, data will begin streaming into the `lor.character_sightings` table. You can then run a spark query in the notebook to see the results!

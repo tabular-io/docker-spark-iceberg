@@ -1,0 +1,31 @@
+name: "Check notebooks"
+on:
+  push:
+    branches:
+      - 'master'
+  pull_request:
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Pre-commit
+        run: pip3 install pre-commit && pre-commit run --all-files
+
+      - name: Build container
+        run: docker-compose pull && docker-compose build && docker-compose up -d
+
+      - name: Wait until container is up
+        run: |
+          while ! nc -z localhost 8888; do
+            sleep 1
+          done
+
+      - name: Install papermill
+        run: docker exec $(docker ps -q --filter expose=8888) pip3 install papermill
+
+      - name: Run notebooks
+        run: ls spark/notebooks | xargs -I {} docker exec $(docker ps -q --filter expose=8888) papermill "/home/iceberg/notebooks/{}"

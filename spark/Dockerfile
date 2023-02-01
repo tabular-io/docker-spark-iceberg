@@ -42,25 +42,16 @@ RUN curl https://dlcdn.apache.org/spark/spark-3.3.1/spark-3.3.1-bin-hadoop3.tgz 
  && tar xvzf spark-3.3.1-bin-hadoop3.tgz --directory /opt/spark --strip-components 1 \
  && rm -rf spark-3.3.1-bin-hadoop3.tgz
 
-# Download postgres connector jar
-RUN curl https://jdbc.postgresql.org/download/postgresql-42.2.24.jar -o postgresql-42.2.24.jar \
- && cp postgresql-42.2.24.jar /opt/spark/jars \
- && rm postgresql-42.2.24.jar
-
 # Download iceberg spark runtime
-RUN curl https://repo1.maven.org/maven2/org/apache/iceberg/iceberg-spark-runtime-3.3_2.12/1.1.0/iceberg-spark-runtime-3.3_2.12-1.1.0.jar -Lo iceberg-spark-runtime-3.3_2.12-1.1.0.jar \
- && mv iceberg-spark-runtime-3.3_2.12-1.1.0.jar /opt/spark/jars
+RUN curl https://repo1.maven.org/maven2/org/apache/iceberg/iceberg-spark-runtime-3.3_2.12/1.1.0/iceberg-spark-runtime-3.3_2.12-1.1.0.jar -Lo /opt/spark/jars/iceberg-spark-runtime-3.3_2.12-1.1.0.jar
 
-RUN curl https://tabular-repository-public.s3.amazonaws.com/releases/io/tabular/tabular-client-runtime/0.40.0/tabular-client-runtime-0.40.0.jar -Lo tabular-client-runtime-0.40.0.jar \
- && mv tabular-client-runtime-0.40.0.jar /opt/spark/jars
+RUN curl https://tabular-repository-public.s3.amazonaws.com/releases/io/tabular/tabular-client-runtime/0.40.0/tabular-client-runtime-0.40.0.jar -Lo /opt/spark/jars/tabular-client-runtime-0.40.0.jar
 
 # Download Java AWS SDK
-RUN curl https://repo1.maven.org/maven2/software/amazon/awssdk/bundle/2.17.257/bundle-2.17.257.jar -Lo bundle-2.17.257.jar \
- && mv bundle-2.17.257.jar /opt/spark/jars
+RUN curl https://repo1.maven.org/maven2/software/amazon/awssdk/bundle/2.17.257/bundle-2.17.257.jar -Lo /opt/spark/jars/bundle-2.17.257.jar
 
 # Download URL connection client required for S3FileIO
-RUN curl https://repo1.maven.org/maven2/software/amazon/awssdk/url-connection-client/2.17.257/url-connection-client-2.17.257.jar -Lo url-connection-client-2.17.257.jar \
- && mv url-connection-client-2.17.257.jar /opt/spark/jars
+RUN curl https://repo1.maven.org/maven2/software/amazon/awssdk/url-connection-client/2.17.257/url-connection-client-2.17.257.jar -Lo /opt/spark/jars/url-connection-client-2.17.257.jar
 
 # Install AWS CLI
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
@@ -89,7 +80,7 @@ RUN mkdir -p /home/iceberg/data \
  && curl https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2021-04.parquet -o /home/iceberg/data/yellow_tripdata_2021-04.parquet
 
 RUN mkdir -p /home/iceberg/localwarehouse /home/iceberg/notebooks /home/iceberg/warehouse /home/iceberg/spark-events /home/iceberg
-COPY notebooks/* /home/iceberg/notebooks
+COPY notebooks/ /home/iceberg/notebooks
 
 # Add a notebook command
 RUN echo '#! /bin/sh' >> /bin/notebook \
