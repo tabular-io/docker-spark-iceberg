@@ -106,6 +106,8 @@ ENV PATH="/opt/spark/sbin:/opt/spark/bin:${PATH}"
 RUN chmod u+x /opt/spark/sbin/* && \
     chmod u+x /opt/spark/bin/*
 
+COPY .pyiceberg.yaml /root/.pyiceberg.yaml
+
 COPY entrypoint.sh .
 
 ENTRYPOINT ["./entrypoint.sh"]
