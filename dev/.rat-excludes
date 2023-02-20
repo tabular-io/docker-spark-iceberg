@@ -1,0 +1,8 @@
+.gitignore
+.dockerignore
+.rat-excludes
+rat-results.txt
+spark/notebooks/*
+gradle-wrapper.properties
+requirements.txt
+.*ipynb
