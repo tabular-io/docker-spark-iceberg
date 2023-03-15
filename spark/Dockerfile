@@ -60,7 +60,7 @@ RUN curl https://dlcdn.apache.org/spark/spark-${SPARK_VERSION}/spark-${SPARK_VER
  && rm -rf spark-${SPARK_VERSION}-bin-hadoop3.tgz
 
 # Download iceberg spark runtime
-RUN curl https://repo1.maven.org/maven2/org/apache/iceberg/iceberg-spark-runtime-3.3_2.12/1.1.0/iceberg-spark-runtime-3.3_2.12-1.1.0.jar -Lo /opt/spark/jars/iceberg-spark-runtime-3.3_2.12-1.1.0.jar
+RUN curl https://repository.apache.org/content/repositories/orgapacheiceberg-1121/org/apache/iceberg/iceberg-spark-runtime-3.3_2.12/1.2.0/iceberg-spark-runtime-3.3_2.12-1.2.0.jar -Lo /opt/spark/jars/iceberg-spark-runtime-3.3_2.12-1.2.0.jar
 
 ENV TABULAR_VERSION=0.50.4
 
