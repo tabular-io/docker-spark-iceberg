@@ -53,12 +53,14 @@ services:
       - CATALOG_IO__IMPL=org.apache.iceberg.aws.s3.S3FileIO
       - CATALOG_S3_ENDPOINT=http://minio:9000
       - CATALOG_S3_PATH__STYLE__ACCESS=true
+      - CATALOG_S3_CHECKSUM__ENABLED=false
   minio:
     image: minio/minio
     container_name: minio
     environment:
       - MINIO_ROOT_USER=admin
       - MINIO_ROOT_PASSWORD=password
+      - MINIO_DOMAIN=minio
     ports:
       - 9001:9001
       - 9000:9000
