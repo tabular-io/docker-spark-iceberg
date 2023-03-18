@@ -101,6 +101,16 @@ RUN mkdir -p /home/iceberg/data \
 RUN mkdir -p /home/iceberg/localwarehouse /home/iceberg/notebooks /home/iceberg/warehouse /home/iceberg/spark-events /home/iceberg
 COPY notebooks/ /home/iceberg/notebooks
 
+
+# Download delta-core
+RUN curl https://repo1.maven.org/maven2/io/delta/delta-core_2.12/2.2.0/delta-core_2.12-2.2.0.jar -Lo /opt/spark/jars/delta-core_2.12-2.2.0.jar
+
+RUN curl https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/3.3.2/hadoop-aws-3.3.2.jar -Lo /opt/spark/jars/hadoop-aws-3.3.2.jar
+
+RUN curl https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.12.429/aws-java-sdk-bundle-1.12.429.jar -Lo /opt/spark/jars/aws-java-sdk-bundle-1.12.429.jar
+
+RUN curl https://repo1.maven.org/maven2/io/delta/delta-storage/2.2.0/delta-storage-2.2.0.jar -Lo /opt/spark/jars/delta-storage-2.2.0.jar
+
 # Add a notebook command
 RUN echo '#! /bin/sh' >> /bin/notebook \
  && echo 'export PYSPARK_DRIVER_PYTHON=jupyter-notebook' >> /bin/notebook \

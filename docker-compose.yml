@@ -19,8 +19,8 @@ version: "3"
 
 services:
   spark-iceberg:
-    image: tabulario/spark-iceberg
-    container_name: spark-iceberg
+    image: udayaw/spark
+    container_name: spark
     build: spark/
     depends_on:
       - rest
