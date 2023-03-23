@@ -29,6 +29,19 @@ jobs:
 
       - name: Build and Push
         uses: docker/build-push-action@v3
+        if: ${{ github.ref_name == 'main' }}
+        env:
+          IMAGE_TAG: ${{ inputs.tag }}
+        with:
+          context: spark/
+          file: spark/Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: tabulario/spark-iceberg:latest,tabulario/spark-iceberg:${{ inputs.tag }}
+
+      - name: Build and Push
+        uses: docker/build-push-action@v3
+        if: ${{ github.ref_name != 'main' }}
         env:
           IMAGE_TAG: ${{ inputs.tag }}
         with:
