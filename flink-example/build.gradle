@@ -43,11 +43,11 @@ repositories {
 }
 
 ext {
-  flinkVersion = "1.16.0"
+  flinkVersion = "1.16.1"
   flinkShortVersion = "1.16"
   scalaVersion = "2.12"
-  icebergVersion = "1.1.0"
-  tabularVersion = "0.48.0-rc.3"
+  icebergVersion = "1.2.1"
+  tabularVersion = "1.4.3"
   hadoopVersion = "3.3.2"
 }
 
