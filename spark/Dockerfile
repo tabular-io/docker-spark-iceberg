@@ -49,6 +49,8 @@ ENV PYTHONPATH=$SPARK_HOME/python:$SPARK_HOME/python/lib/py4j-0.10.9.5-src.zip:$
 WORKDIR ${SPARK_HOME}
 
 ENV SPARK_VERSION=3.3.2
+ENV SPARK_MAJOR_VERSION=3.3
+ENV ICEBERG_VERSION=1.2.1
 
 # Download spark
 RUN mkdir -p ${SPARK_HOME} \
@@ -57,10 +59,7 @@ RUN mkdir -p ${SPARK_HOME} \
  && rm -rf spark-${SPARK_VERSION}-bin-hadoop3.tgz
 
 # Download iceberg spark runtime
-RUN curl https://repo1.maven.org/maven2/org/apache/iceberg/iceberg-spark-runtime-3.3_2.12/1.2.1/iceberg-spark-runtime-3.3_2.12-1.2.1.jar -Lo /opt/spark/jars/iceberg-spark-runtime-3.3_2.12-1.2.1.jar
-
-ENV TABULAR_VERSION=1.5.0-rc.8
-RUN curl https://tabular-repository-public.s3.amazonaws.com/releases/io/tabular/tabular-client-runtime/${TABULAR_VERSION}/tabular-client-runtime-${TABULAR_VERSION}.jar -Lo /opt/spark/jars/tabular-client-runtime.jar
+RUN curl https://repo1.maven.org/maven2/org/apache/iceberg/iceberg-spark-runtime-${SPARK_MAJOR_VERSION}_2.12/${ICEBERG_VERSION}/iceberg-spark-runtime-${SPARK_MAJOR_VERSION}_2.12-${ICEBERG_VERSION}.jar -Lo /opt/spark/jars/iceberg-spark-runtime-${SPARK_MAJOR_VERSION}_2.12-${ICEBERG_VERSION}.jar
 
 # Download Java AWS SDK
 ENV AWSSDK_VERSION=2.20.18
