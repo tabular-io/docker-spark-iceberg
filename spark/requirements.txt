@@ -5,3 +5,4 @@ jupysql==0.5.2
 matplotlib==3.6.3
 scipy==1.10.0
 duckdb-engine==0.6.8
+typing-extensions==4.5.0 # workaround to fix pydantic issue
