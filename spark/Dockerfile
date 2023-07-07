@@ -44,12 +44,12 @@ RUN curl https://github.com/SpencerPark/IJava/releases/download/v1.3.0/ijava-1.3
 
 # Optional env variables
 ENV SPARK_HOME=${SPARK_HOME:-"/opt/spark"}
-ENV PYTHONPATH=$SPARK_HOME/python:$SPARK_HOME/python/lib/py4j-0.10.9.5-src.zip:$PYTHONPATH
+ENV PYTHONPATH=$SPARK_HOME/python:$SPARK_HOME/python/lib/py4j-0.10.9.7-src.zip:$PYTHONPATH
 
 WORKDIR ${SPARK_HOME}
 
-ENV SPARK_VERSION=3.3.2
-ENV SPARK_MAJOR_VERSION=3.3
+ENV SPARK_VERSION=3.4.1
+ENV SPARK_MAJOR_VERSION=3.4
 ENV ICEBERG_VERSION=1.3.0
 
 # Download spark
