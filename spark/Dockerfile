@@ -48,7 +48,7 @@ ENV PYTHONPATH=$SPARK_HOME/python:$SPARK_HOME/python/lib/py4j-0.10.9.7-src.zip:$
 
 WORKDIR ${SPARK_HOME}
 
-ENV SPARK_VERSION=3.5.0
+ENV SPARK_VERSION=3.4.0
 ENV SPARK_MAJOR_VERSION=3.4
 ENV ICEBERG_VERSION=1.4.0
 
@@ -59,7 +59,7 @@ RUN mkdir -p ${SPARK_HOME} \
  && rm -rf spark-${SPARK_VERSION}-bin-hadoop3.tgz
 
 # Download iceberg spark runtime
-RUN curl https://repository.apache.org/content/repositories/orgapacheiceberg-1145/org/apache/iceberg/iceberg-spark-runtime-3.5_2.13/1.4.0/iceberg-spark-runtime-3.5_2.13-1.4.0.jar -Lo /opt/spark/jars/iceberg-spark-runtime-${SPARK_MAJOR_VERSION}_2.12-${ICEBERG_VERSION}.jar
+RUN curl https://repository.apache.org/content/repositories/orgapacheiceberg-1145/org/apache/iceberg/iceberg-spark-runtime-3.4_2.12/1.4.0/iceberg-spark-runtime-3.4_2.12-1.4.0.jar -Lo /opt/spark/jars/iceberg-spark-runtime-${SPARK_MAJOR_VERSION}_2.12-${ICEBERG_VERSION}.jar
 
 # Download Java AWS Bundle
 RUN curl https://repository.apache.org/content/repositories/orgapacheiceberg-1145/org/apache/iceberg/iceberg-aws-bundle/1.4.0/iceberg-aws-bundle-1.4.0.jar -Lo /opt/spark/jars/iceberg-aws-bundle-1.4.0.jar
