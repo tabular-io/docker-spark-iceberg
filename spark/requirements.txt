@@ -3,6 +3,6 @@ spylon-kernel==0.4.1
 pyiceberg[pyarrow,duckdb,pandas]==0.5.0
 jupysql==0.5.2
 matplotlib==3.6.3
-scipy==1.10.0
+scipy==1.11.3
 duckdb-engine==0.6.8
 pydantic<2.4.0
