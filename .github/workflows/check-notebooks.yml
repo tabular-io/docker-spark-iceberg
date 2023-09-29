@@ -2,7 +2,7 @@ name: "Check notebooks"
 on:
   push:
     branches:
-      - 'master'
+      - 'main'
   pull_request:
 
 jobs:
@@ -18,7 +18,7 @@ jobs:
       - name: Build container
         run: docker-compose pull && docker-compose build && docker-compose up -d
 
-      - name: Wait until container is up
+      - name: Wait until the container is up
         run: |
           while ! nc -z localhost 8888; do
             sleep 1
