@@ -59,10 +59,10 @@ RUN mkdir -p ${SPARK_HOME} \
  && rm -rf spark-${SPARK_VERSION}-bin-hadoop3.tgz
 
 # Download iceberg spark runtime
-RUN curl https://repository.apache.org/content/repositories/orgapacheiceberg-1145/org/apache/iceberg/iceberg-spark-runtime-3.4_2.12/1.4.0/iceberg-spark-runtime-3.4_2.12-1.4.0.jar -Lo /opt/spark/jars/iceberg-spark-runtime-${SPARK_MAJOR_VERSION}_2.12-${ICEBERG_VERSION}.jar
+RUN curl https://repository.apache.org/content/repositories/orgapacheiceberg-1146/org/apache/iceberg/iceberg-spark-runtime-3.4_2.12/1.4.0/iceberg-spark-runtime-3.4_2.12-1.4.0.jar -Lo /opt/spark/jars/iceberg-spark-runtime-${SPARK_MAJOR_VERSION}_2.12-${ICEBERG_VERSION}.jar
 
 # Download Java AWS Bundle
-RUN curl https://repository.apache.org/content/repositories/orgapacheiceberg-1145/org/apache/iceberg/iceberg-aws-bundle/1.4.0/iceberg-aws-bundle-1.4.0.jar -Lo /opt/spark/jars/iceberg-aws-bundle-1.4.0.jar
+RUN curl https://repository.apache.org/content/repositories/orgapacheiceberg-1146/org/apache/iceberg/iceberg-aws-bundle/1.4.0/iceberg-aws-bundle-1.4.0.jar -Lo /opt/spark/jars/iceberg-aws-bundle-1.4.0.jar
 
 # Download URL connection client required for S3FileIO
 #ENV AWSSDK_VERSION=2.20.18
