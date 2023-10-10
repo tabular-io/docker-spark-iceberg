@@ -61,12 +61,9 @@ RUN mkdir -p ${SPARK_HOME} \
 # Download iceberg spark runtime
 RUN curl https://repository.apache.org/content/repositories/orgapacheiceberg-1146/org/apache/iceberg/iceberg-spark-runtime-3.4_2.12/1.4.0/iceberg-spark-runtime-3.4_2.12-1.4.0.jar -Lo /opt/spark/jars/iceberg-spark-runtime-${SPARK_MAJOR_VERSION}_2.12-${ICEBERG_VERSION}.jar
 
-# Download Java AWS Bundle
-RUN curl https://repository.apache.org/content/repositories/orgapacheiceberg-1146/org/apache/iceberg/iceberg-aws-bundle/1.4.0/iceberg-aws-bundle-1.4.0.jar -Lo /opt/spark/jars/iceberg-aws-bundle-1.4.0.jar
-
-# Download URL connection client required for S3FileIO
-#ENV AWSSDK_VERSION=2.20.18
-#RUN curl https://repo1.maven.org/maven2/software/amazon/awssdk/url-connection-client/${AWSSDK_VERSION}/url-connection-client-${AWSSDK_VERSION}.jar -Lo /opt/spark/jars/url-connection-client-${AWSSDK_VERSION}.jar
+# Download AWS bundle
+RUN curl -s https://repo1.maven.org/maven2/org/apache/iceberg/iceberg-aws-bundle/${ICEBERG_VERSION}/iceberg-aws-bundle-${ICEBERG_VERSION}.jar -Lo iceberg-aws-bundle-${ICEBERG_VERSION}.jar \
+ && mv iceberg-aws-bundle-${ICEBERG_VERSION}.jar /opt/spark/jars
 
 # Install AWS CLI
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
