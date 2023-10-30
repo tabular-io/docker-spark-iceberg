@@ -59,10 +59,10 @@ RUN mkdir -p ${SPARK_HOME} \
  && rm -rf spark-${SPARK_VERSION}-bin-hadoop3.tgz
 
 # Download iceberg spark runtime
-RUN curl https://repository.apache.org/content/repositories/orgapacheiceberg-1147/org/apache/iceberg/iceberg-spark-runtime-3.4_2.12/1.4.1/iceberg-spark-runtime-3.4_2.12-1.4.1.jar -Lo /opt/spark/jars/iceberg-spark-runtime-3.4_2.12-1.4.1.jar
+RUN curl https://repository.apache.org/content/repositories/orgapacheiceberg-1148/org/apache/iceberg/iceberg-spark-runtime-3.4_2.12/1.4.2/iceberg-spark-runtime-3.4_2.12-1.4.2.jar -Lo /opt/spark/jars/iceberg-spark-runtime-3.4_2.12-1.4.2.jar
 
 # Download AWS bundle
-RUN curl -s https://repository.apache.org/content/repositories/orgapacheiceberg-1147/org/apache/iceberg/iceberg-aws-bundle/1.4.1/iceberg-aws-bundle-1.4.1.jar -Lo /opt/spark/jars/iceberg-aws-bundle-1.4.1.jar
+RUN curl -s https://repository.apache.org/content/repositories/orgapacheiceberg-1148/org/apache/iceberg/iceberg-aws-bundle/1.4.2/iceberg-aws-bundle-1.4.2.jar -Lo /opt/spark/jars/iceberg-aws-bundle-1.4.2.jar
 
 # Install AWS CLI
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
