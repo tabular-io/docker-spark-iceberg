@@ -1,7 +1,7 @@
 jupyter==1.0.0
 spylon-kernel==0.4.1
 pyiceberg[pyarrow,duckdb,pandas]==0.5.1
-jupysql==0.10.5
+jupysql==0.10.7
 matplotlib==3.8.2
 scipy==1.11.4
 duckdb-engine==0.9.4
