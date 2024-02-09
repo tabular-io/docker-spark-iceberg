@@ -81,6 +81,6 @@ docker buildx build -t tabulario/spark-iceberg --platform=linux/amd64,linux/arm6
 ---
 
 For more information on getting started with using Iceberg, checkout
-the [Getting Started](https://iceberg.apache.org/getting-started/) guide in the official docs.
+the [Quickstart](https://iceberg.apache.org/spark-quickstart/) guide in the official docs.
 
 The repository for the docker image is [located on dockerhub](https://hub.docker.com/r/tabulario/spark-iceberg).
