@@ -28,7 +28,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_ACCESS_TOKEN }}
 
       - name: Build and Push
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         if: ${{ github.ref_name == 'main' }}
         env:
           IMAGE_TAG: ${{ inputs.tag }}
@@ -40,7 +40,7 @@ jobs:
           tags: tabulario/spark-iceberg:latest,tabulario/spark-iceberg:${{ inputs.tag }}
 
       - name: Build and Push
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         if: ${{ github.ref_name != 'main' }}
         env:
           IMAGE_TAG: ${{ inputs.tag }}
