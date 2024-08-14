@@ -1,4 +1,4 @@
-# Licensed to the Apache Software Foundation (ASF) under one or more
+x# Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
 # this work for additional information regarding copyright ownership.
 # The ASF licenses this file to You under the Apache License, Version 2.0
@@ -50,7 +50,7 @@ WORKDIR ${SPARK_HOME}
 
 ENV SPARK_VERSION=3.5.1
 ENV SPARK_MAJOR_VERSION=3.5
-ENV ICEBERG_VERSION=1.5.2
+ENV ICEBERG_VERSION=1.6.0
 
 # Download spark
 RUN mkdir -p ${SPARK_HOME} \
