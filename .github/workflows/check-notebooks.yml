@@ -16,7 +16,7 @@ jobs:
         run: pip3 install pre-commit && pre-commit run --all-files
 
       - name: Build container
-        run: docker-compose pull && docker-compose build && docker-compose up -d
+        run: docker compose pull && docker compose build && docker compose up -d
 
       - name: Wait until the container is up
         run: |
